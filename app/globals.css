@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #__next {
+    @apply h-full w-full;
+  }
+
+  body {
+    @apply bg-cosmic text-cosmic-100 antialiased;
+  }
+}
+
+@layer components {
+  /* 宇宙之心面板：深黑 + 暗红边框 + 锐利切角 */
+  .cosmic-panel {
+    @apply border border-panel-border bg-panel/95 backdrop-blur-md shadow-inner-glow;
+    clip-path: polygon(
+      0 0,
+      calc(100% - 8px) 0,
+      100% 8px,
+      100% 100%,
+      8px 100%,
+      0 calc(100% - 8px)
+    );
+  }
+
+  /* 主按钮：红黑渐变 + 锐利边角 */
+  .cosmic-btn-primary {
+    @apply bg-gradient-to-br from-crimson-600 to-crimson-800 px-4 py-2 text-sm font-bold tracking-wider text-white shadow-crimson-glow transition-all hover:from-crimson-500 hover:to-crimson-700 hover:shadow-[0_0_28px_rgba(220,38,38,0.35)] active:scale-[0.98];
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  /* 次要按钮：暗色 + 金色悬停 */
+  .cosmic-btn-secondary {
+    @apply border border-cosmic-700 bg-cosmic-800/80 px-4 py-2 text-sm font-medium tracking-wide text-cosmic-200 transition-all hover:border-crimson-700 hover:bg-cosmic-700 hover:text-white active:scale-[0.98];
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  /* 胶囊按钮 — 先锋变体：小斜切 */
+  .cosmic-pill {
+    @apply border border-cosmic-700 bg-cosmic-800/60 px-3 py-1 text-xs font-medium tracking-wide text-cosmic-300 transition-all hover:border-crimson-700 hover:text-cosmic-100;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  }
+
+  /* 输入框 — 锐利直角 */
+  .cosmic-input {
+    @apply border border-cosmic-700 bg-cosmic-900/80 px-3 py-2 text-sm text-cosmic-100 outline-none transition-all placeholder:text-cosmic-500 focus:border-crimson-600 focus:ring-1 focus:ring-crimson-600/50;
+  }
+
+  /* 标题文字渐变 */
+  .cosmic-title {
+    @apply bg-gradient-to-r from-white via-cosmic-100 to-crimson-400 bg-clip-text text-transparent;
+  }
+
+  /* 金色强调 */
+  .cosmic-gold {
+    @apply text-gold drop-shadow-gold-glow;
+  }
+
+  /* 先锋艺术装饰：斜切块 */
+  .avant-slash {
+    clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  }
+
+  /* 先锋艺术装饰：反向斜切 */
+  .avant-slash-reverse {
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #7f1d1d #0a0a0a;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 5px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #7f1d1d;
+    border-radius: 0;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #dc2626;
+  }
+
+  .execution-flow .react-flow__attribution {
+    display: none;
+  }
+}
