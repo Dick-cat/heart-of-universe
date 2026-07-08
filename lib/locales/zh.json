@@ -1,0 +1,302 @@
+{
+  "app": {
+    "title": "宇宙之心",
+    "subtitle": "AI 驱动的个人认知系统"
+  },
+  "common": {
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "add": "添加",
+    "create": "创建",
+    "close": "关闭",
+    "open": "打开",
+    "export": "导出",
+    "import": "导入",
+    "loading": "加载中...",
+    "search": "搜索",
+    "settings": "设置",
+    "help": "帮助",
+    "confirm": "确认",
+    "copied": "已复制",
+    "success": "成功",
+    "error": "错误",
+    "warning": "警告",
+    "info": "信息",
+    "generating": "生成中..."
+  },
+  "language": {
+    "label": "语言",
+    "en": "English",
+    "zh": "中文"
+  },
+  "appPage": {
+    "loading": "加载中",
+    "toggleSidebarCollapse": "收起侧边栏",
+    "toggleSidebarExpand": "展开侧边栏",
+    "title": "宇宙之心",
+    "rootView": "根视图",
+    "back": "返回",
+    "resetCameraTitle": "重置相机",
+    "resetCamera": "重置相机"
+  },
+  "leftSidebar": {
+    "navTitle": "导航",
+    "searchLabel": "星际搜索",
+    "searchPlaceholder": "输入关键词…",
+    "matchCount": "匹配 {{count}} 个节点",
+    "openNewWindow": "打开新窗口",
+    "aiGradeLegend": "AI 生成等级",
+    "selectedNode": "当前选中",
+    "helpToggleHide": "收起帮助",
+    "helpToggleShow": "技术支持",
+    "helpTitle": "宇宙之心",
+    "helpDesc": "不需要代码的个人认知系统，现在只有知识图谱 + 证据审查，之后会添加证据矩阵与逻辑链。",
+    "helpContact": "技术联系：19383203383",
+    "helpBiz": "商业合作：QQ 3279496569",
+    "helpOps": "操作：Shift+点击多选 / Shift+点击节点连线；添加节点与关系请使用底部“输入”Tab。",
+    "quickAddPlaceholder": "节点名称…",
+    "quickAddButton": "+ 节点",
+    "sections": {
+      "project": "项目",
+      "workspace": "工作区",
+      "quickAdd": "快速添加",
+      "view": "视图",
+      "multiWindow": "多窗口",
+      "legend": "图例",
+      "help": "帮助"
+    },
+    "workspaces": {
+      "graph": "3D 图谱",
+      "execution": "2D 执行图",
+      "reasoning": "推理"
+    }
+  },
+  "nodeTypes": {
+    "concept": "概念",
+    "principle": "原理",
+    "meta": "元知识",
+    "paper": "论文",
+    "note": "笔记",
+    "custom": "自定义",
+    "communication": "通讯",
+    "aiBrief": "AI 短述"
+  },
+  "projectPanel": {
+    "title": "项目",
+    "placeholder": "项目名称 / 导出文件名",
+    "new": "+ 新建",
+    "save": "保存",
+    "exportJson": "导出 JSON",
+    "exportBibtex": "导出 BibTeX",
+    "backupLocal": "备份到本地文件",
+    "exportFocusReport": "导出专注与学习报告",
+    "defaultProjectName": "项目 {{date}}",
+    "defaultExportName": "heart-of-universe-{{timestamp}}",
+    "manualBackupName": "手动备份-{{timestamp}}",
+    "backupSaved": "已备份到: {{path}}",
+    "confirmRestoreBackup": "恢复备份将覆盖当前图谱，确定继续吗？",
+    "readBackupFailed": "读取备份失败",
+    "confirmNewProject": "新建项目将清空当前图谱，确定继续吗？",
+    "confirmDeleteProject": "删除后无法恢复，确定继续吗？",
+    "confirmImportMerge": "导入会合并另一个项目的节点和关系到当前项目，确定继续吗？",
+    "importProjectDefault": "导入项目",
+    "fileFormatError": "文件格式错误",
+    "noBibtexEntries": "未解析到 BibTeX 条目",
+    "importedPapers": "已导入 {{count}} 条文献为知识节点",
+    "bibtexParseError": "BibTeX 解析失败：{{message}}",
+    "noPaperNodes": "当前没有 paper 类型的节点可导出",
+    "tabs": {
+      "manage": "管理",
+      "import": "导入",
+      "history": "历史"
+    },
+    "localBackup": "本地备份",
+    "noLocalBackup": "暂无本地备份",
+    "importMerge": "导入并合并",
+    "noOtherProjects": "暂无其他项目可导入",
+    "importJson": "导入 JSON 项目",
+    "importBibtex": "导入 BibTeX 文献",
+    "historyProjects": "历史项目",
+    "noHistory": "暂无历史项目",
+    "actions": {
+      "restore": "恢复",
+      "merge": "合并",
+      "load": "加载",
+      "delete": "删"
+    }
+  },
+  "chatPanel": {
+    "title": "助手",
+    "trainingBadge": "训练中",
+    "clearMemoryTitle": "清除当前项目对话记忆",
+    "settingsTitle": "模型设置",
+    "requestFailed": "请求失败",
+    "generatedNodes": "已生成新节点。",
+    "generatedReasoning": "已生成推理线程。",
+    "reasoningDefaultTitle": "AI 推理线程",
+    "errorPrefix": "[错误] ",
+    "cancelApplied": "已取消应用 AI 输出。",
+    "confirmClearMemory": "确定清除当前项目的 AI 对话记忆？此操作不可恢复。",
+    "providers": {
+      "deepseek": "DeepSeek",
+      "kimi": "Kimi",
+      "openai": "OpenAI",
+      "custom": "自定义"
+    },
+    "modelPlaceholder": "模型名称",
+    "apiKeyPlaceholder": "API Key",
+    "baseUrlPlaceholder": "Base URL（可选）",
+    "settingsHint": "设置保存在浏览器本地。",
+    "pendingGraphExplanation": "认知训练模式已开启。请完成阅读、摘要和手动建节点后再应用 AI 输出。",
+    "pendingReasoningExplanation": "认知训练模式已开启。请完成训练要求后再应用推理线程。",
+    "loading": "思考中…",
+    "inputPlaceholder": "输入问题或主题描述…",
+    "completeTrainingFirst": "先完成训练",
+    "send": "发送",
+    "presets": {
+      "intro": "系统入门",
+      "deepDive": "深挖原理",
+      "resources": "找学习资源",
+      "gapFill": "查漏补缺",
+      "reconnect": "重新连接网络"
+    }
+  },
+  "graph3D": {
+    "newNodeFallbackLabel": "新节点",
+    "tooltipUnnamed": "未命名",
+    "connectModeHint": "连线模式：点击目标节点以从 {{source}} 建立连接",
+    "contextMenuAddNode": "添加节点",
+    "contextMenuCancel": "取消"
+  },
+  "executionGraph2D": {
+    "exportPlanTitle": "# 执行计划",
+    "exportOrder": "导出执行顺序",
+    "copyMarkdown": "复制 Markdown",
+    "copiedMarkdown": "已复制 Markdown",
+    "autoConnect": "自动连线",
+    "noDependencies": "未检测到足够明确的依赖关系",
+    "addedDependencies": "已自动添加 {{count}} 条依赖连线",
+    "priorityLegend": "优先级（重要 + 紧急）",
+    "emptyHint": "右键空白处新建任务/节点，或使用上方 AI 规划",
+    "noTasks": "暂无任务。",
+    "taskItem": "{{index}}. [{{status}}] {{title}}（{{startDate}} - {{endDate}}）",
+    "descriptionPrefix": "   描述：{{desc}}",
+    "nodePrefix": "   关联节点：{{id}}",
+    "deliverablesPrefix": "   交付物：{{list}}",
+    "dependenciesPrefix": "   依赖：{{list}}",
+    "status": {
+      "todo": "待办",
+      "doing": "进行中",
+      "done": "完成",
+      "blocked": "阻塞"
+    }
+  },
+  "visualSupervision": {
+    "title": "视觉监督",
+    "startCamera": "开启摄像头",
+    "stopCamera": "关闭摄像头",
+    "attentionScore": "注意力得分",
+    "focusTime": "专注时长",
+    "fatigue": "疲劳度",
+    "gaze": "视线",
+    "sessionReport": "时段报告",
+    "enableFirst": "请先启用摄像头以开始监督",
+    "cameraError": "摄像头出错，请检查权限"
+  },
+  "cognitiveTraining": {
+    "title": "认知训练",
+    "enabled": "训练模式已开启",
+    "disabled": "训练模式已关闭",
+    "readTime": "阅读时间",
+    "scrollCoverage": "滚动覆盖",
+    "summaryRequired": "自写摘要",
+    "manualNodeRequired": "手动节点",
+    "applyLocked": "应用已锁定",
+    "applyUnlocked": "应用已解锁",
+    "stats": "统计",
+    "sessions": "训练次数",
+    "avgScore": "平均得分",
+    "totalTime": "总时长"
+  },
+  "nodeDetail": {
+    "info": "信息",
+    "content": "内容",
+    "relations": "关系",
+    "evidence": "证据",
+    "actions": "操作",
+    "label": "名称",
+    "type": "类型",
+    "description": "描述",
+    "tags": "标签",
+    "addTag": "添加标签",
+    "addContent": "添加内容",
+    "deleteNode": "删除节点",
+    "noDescription": "暂无描述",
+    "aiGrade": "AI 等级"
+  },
+  "inputTab": {
+    "title": "输入",
+    "manual": "手动",
+    "ai": "AI 生成",
+    "nodeLabel": "节点名称",
+    "nodeType": "节点类型",
+    "generate": "生成",
+    "prompt": "提示词"
+  },
+  "agentCluster": {
+    "title": "Agent 集群",
+    "run": "运行",
+    "requirementAnalyst": "需求分析师",
+    "architect": "系统架构师",
+    "planner": "方案规划师",
+    "evaluator": "评估批评者",
+    "researcher": "领域研究员"
+  },
+  "changeLog": {
+    "title": "修改日志",
+    "empty": "暂无修改",
+    "addedNodes": "新增 {{count}} 个节点",
+    "updatedNodes": "更新 {{count}} 个节点",
+    "removedNodes": "移除 {{count}} 个节点",
+    "addedLinks": "新增 {{count}} 条关系"
+  },
+  "evidenceReview": {
+    "title": "证据审查",
+    "runReview": "运行审查",
+    "sourceCredibility": "来源可信度",
+    "methodRigor": "方法严谨性",
+    "consistency": "一致性",
+    "completeness": "完整度",
+    "networkEmbedding": "网络嵌入度"
+  },
+  "autoMode": {
+    "title": "自动模式",
+    "start": "开始",
+    "stop": "停止",
+    "running": "运行中",
+    "idle": "空闲"
+  },
+  "overview": {
+    "title": "概览",
+    "nodeCount": "节点数",
+    "linkCount": "关系数",
+    "clusterCount": "聚类数",
+    "recentActivity": "最近活动"
+  },
+  "aiGrades": {
+    "Ⅰ": {
+      "label": "直接生成",
+      "description": "由 AI 直接生成，尚未经过证据审查或人工校验。"
+    },
+    "Ⅱ": {
+      "label": "审查通过",
+      "description": "已通过证据审查、冲突检测或人工快速校验，无显著问题。"
+    },
+    "Ⅲ": {
+      "label": "严格审查并修改",
+      "description": "经过多轮审查、证据核对或人工深度修改，可信度最高。"
+    }
+  }
+}

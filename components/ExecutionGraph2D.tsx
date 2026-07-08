@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useCallback, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ReactFlow,
   Background,
@@ -49,8 +50,13 @@ function statusColor(status: ExecutionTask['status']): string {
   }
 }
 
-function statusLabel(status: ExecutionTask['status']): string {
-  const map = { todo: '待办', doing: '进行中', done: '完成', blocked: '阻塞' };
+function statusLabel(status: ExecutionTask['status'], t: (key: string) => string): string {
+  const map: Record<ExecutionTask['status'], string> = {
+    todo: t('executionGraph2D.status.todo'),
+    doing: t('executionGraph2D.status.doing'),
+    done: t('executionGraph2D.status.done'),
+    blocked: t('executionGraph2D.status.blocked'),
+  };
   return map[status];
 }
 
@@ -198,6 +204,7 @@ function FlowGraphInner({
   onUpdateTaskDependency,
   onAddKnowledgeNode,
 }: ExecutionGraph2DProps) {
+  const { t } = useTranslation();
   const initialLayout = useMemo(() => computeLayout(tasks), [tasks]);
   const hasLayoutedRef = useRef(false);
   const pointerRef = useRef<{ x: number; y: number; moved: boolean } | null>(null);
@@ -439,27 +446,27 @@ function FlowGraphInner({
       <Panel position="top-left" className="m-2 flex flex-wrap gap-1">
         <button
           onClick={() => {
-            const md = exportExecutionOrderMarkdown(tasks);
-            downloadMarkdown(`执行计划-${new Date().toISOString().slice(0, 10)}.md`, md);
+            const md = exportExecutionOrderMarkdown(tasks, t);
+            downloadMarkdown(`${t('executionGraph2D.exportPlanTitle').replace('# ', '')}-${new Date().toISOString().slice(0, 10)}.md`, md);
           }}
           className="rounded-sm border border-cosmic-700 bg-cosmic-900/90 px-2 py-1 text-[10px] text-cosmic-300 backdrop-blur-md transition-colors hover:border-crimson-700 hover:text-cosmic-100"
         >
-          导出执行顺序
+          {t('executionGraph2D.exportOrder')}
         </button>
         <button
           onClick={() => {
-            const md = exportExecutionOrderMarkdown(tasks);
-            navigator.clipboard.writeText(md).then(() => alert('已复制 Markdown'));
+            const md = exportExecutionOrderMarkdown(tasks, t);
+            navigator.clipboard.writeText(md).then(() => alert(t('executionGraph2D.copiedMarkdown')));
           }}
           className="rounded-sm border border-cosmic-700 bg-cosmic-900/90 px-2 py-1 text-[10px] text-cosmic-300 backdrop-blur-md transition-colors hover:border-crimson-700 hover:text-cosmic-100"
         >
-          复制 Markdown
+          {t('executionGraph2D.copyMarkdown')}
         </button>
         <button
           onClick={() => {
             const suggestions = suggestTaskDependencies(tasks).filter((s) => s.confidence >= 0.5);
             if (suggestions.length === 0) {
-              alert('未检测到足够明确的依赖关系');
+              alert(t('executionGraph2D.noDependencies'));
               return;
             }
             let added = 0;
@@ -473,40 +480,43 @@ function FlowGraphInner({
                 added++;
               }
             }
-            alert(`已自动添加 ${added} 条依赖连线`);
+            alert(t('executionGraph2D.addedDependencies', { count: added }));
           }}
           className="rounded-sm border border-cosmic-700 bg-cosmic-900/90 px-2 py-1 text-[10px] text-cosmic-300 backdrop-blur-md transition-colors hover:border-crimson-700 hover:text-cosmic-100"
         >
-          自动连线
+          {t('executionGraph2D.autoConnect')}
         </button>
       </Panel>
       <Panel position="bottom-right" className="m-2 rounded-sm border border-cosmic-800 bg-cosmic-900/90 p-2 text-[10px] text-cosmic-400 backdrop-blur-md">
-        <div className="mb-1 font-medium text-cosmic-300">优先级（重要 + 紧急）</div>
+        <div className="mb-1 font-medium text-cosmic-300">{t('executionGraph2D.priorityLegend')}</div>
         <div className="space-y-1">
           {[
-            { color: '#06b6d4', label: '低' },
-            { color: '#f59e0b', label: '中' },
-            { color: '#f97316', label: '高' },
-            { color: '#dc2626', label: '极高' },
+            { color: '#06b6d4', key: 'low' },
+            { color: '#f59e0b', key: 'medium' },
+            { color: '#f97316', key: 'high' },
+            { color: '#dc2626', key: 'critical' },
           ].map((item) => (
-            <div key={item.label} className="flex items-center gap-1.5">
+            <div key={item.key} className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full" style={{ backgroundColor: item.color }} />
-              <span>{item.label}</span>
+              <span>{t(`executionGraph2D.priorities.${item.key}`)}</span>
             </div>
           ))}
         </div>
       </Panel>
       {tasks.length === 0 && (
         <Panel position="top-center" className="text-xs text-cosmic-500">
-          右键空白处新建任务/节点，或使用上方 AI 规划
+          {t('executionGraph2D.emptyHint')}
         </Panel>
       )}
     </ReactFlow>
   );
 }
 
-export function exportExecutionOrderMarkdown(tasks: ExecutionTask[]): string {
-  if (tasks.length === 0) return '# 执行计划\n\n暂无任务。\n';
+export function exportExecutionOrderMarkdown(
+  tasks: ExecutionTask[],
+  t: (key: string, options?: Record<string, any>) => string
+): string {
+  if (tasks.length === 0) return `${t('executionGraph2D.exportPlanTitle')}\n\n${t('executionGraph2D.noTasks')}\n`;
 
   // Topological sort by dependencies, fallback to startDate
   const sorted = [...tasks].sort((a, b) => parseDate(a.startDate) - parseDate(b.startDate));
@@ -526,19 +536,26 @@ export function exportExecutionOrderMarkdown(tasks: ExecutionTask[]): string {
 
   for (const t of sorted) visit(t);
 
-  const lines: string[] = ['# 执行计划', ''];
-  result.forEach((t, idx) => {
-    const statusMark = t.status === 'done' ? '[x]' : '[ ]';
-    const dateRange = t.endDate
-      ? `${new Date(t.startDate).toLocaleDateString()} → ${new Date(t.endDate).toLocaleDateString()}`
-      : new Date(t.startDate).toLocaleDateString();
-    lines.push(`${idx + 1}. ${statusMark} ${t.title}（${dateRange}）`);
-    if (t.description) lines.push(`   - 说明：${t.description}`);
-    if (t.nodeId) lines.push(`   - 关联节点：${t.nodeId}`);
-    if (t.deliverables && t.deliverables.length > 0) lines.push(`   - 交付物：${t.deliverables.join('， ')}`);
-    if (t.dependsOn && t.dependsOn.length > 0) {
-      const depTitles = t.dependsOn.map((id) => taskMap.get(id)?.title).filter(Boolean).join('， ');
-      lines.push(`   - 依赖：${depTitles}`);
+  const lines: string[] = [t('executionGraph2D.exportPlanTitle'), ''];
+  result.forEach((task, idx) => {
+    const statusMark = task.status === 'done' ? '[x]' : '[ ]';
+    const dateRange = task.endDate
+      ? `${new Date(task.startDate).toLocaleDateString()} → ${new Date(task.endDate).toLocaleDateString()}`
+      : new Date(task.startDate).toLocaleDateString();
+    lines.push(
+      t('executionGraph2D.taskItem', {
+        index: idx + 1,
+        statusMark,
+        title: task.title,
+        dateRange,
+      })
+    );
+    if (task.description) lines.push(t('executionGraph2D.descriptionPrefix', { desc: task.description }));
+    if (task.nodeId) lines.push(t('executionGraph2D.nodePrefix', { id: task.nodeId }));
+    if (task.deliverables && task.deliverables.length > 0) lines.push(t('executionGraph2D.deliverablesPrefix', { list: task.deliverables.join(', ') }));
+    if (task.dependsOn && task.dependsOn.length > 0) {
+      const depTitles = task.dependsOn.map((id) => taskMap.get(id)?.title).filter(Boolean).join(', ');
+      lines.push(t('executionGraph2D.dependenciesPrefix', { list: depTitles }));
     }
   });
   lines.push('');
@@ -558,6 +575,7 @@ function downloadMarkdown(filename: string, content: string) {
 }
 
 function TaskNode({ data }: { data: any }) {
+  const { t } = useTranslation();
   const task: ExecutionTask = data.task;
   const linkedNode: GraphNode | undefined = data.linkedNode;
   const linkedCluster: ContentCluster | undefined = data.linkedCluster;
@@ -578,7 +596,7 @@ function TaskNode({ data }: { data: any }) {
         borderLeftColor: statusColor(task.status),
         background: `linear-gradient(180deg, ${priColor}22 0%, rgba(2,6,23,0.95) 28%)`,
       }}
-      title={`优先级 ${Math.round(priority * 100)}% · 工作量 ${workload.toFixed(1)}x`}
+      title={`${t('executionGraph2D.priorityPercent', { percent: Math.round(priority * 100) })} · ${t('executionGraph2D.workload')} ${workload.toFixed(1)}x`}
     >
       {/* Prominent priority header bar */}
       <div
@@ -586,7 +604,7 @@ function TaskNode({ data }: { data: any }) {
         style={{ backgroundColor: priColor }}
       >
         <span className="text-[10px] font-bold uppercase tracking-wider text-black">
-          优先级 {Math.round(priority * 100)}%
+          {t('executionGraph2D.priorityPercent', { percent: Math.round(priority * 100) })}
         </span>
         <span className="text-[10px] font-bold text-black/70">{(task.importance * 100).toFixed(0)}I · {(task.urgency * 100).toFixed(0)}U</span>
       </div>
@@ -598,7 +616,7 @@ function TaskNode({ data }: { data: any }) {
             className="shrink-0 rounded-sm px-1 py-0 text-[10px]"
             style={{ backgroundColor: `${statusColor(task.status)}22`, color: statusColor(task.status) }}
           >
-            {statusLabel(task.status)}
+            {statusLabel(task.status, t)}
           </span>
         </div>
         <div className="mt-1 text-[10px] text-cosmic-500">

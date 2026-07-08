@@ -1,0 +1,302 @@
+{
+  "app": {
+    "title": "Heart of Universe",
+    "subtitle": "AI-powered personal cognitive system"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "create": "Create",
+    "close": "Close",
+    "open": "Open",
+    "export": "Export",
+    "import": "Import",
+    "loading": "Loading...",
+    "search": "Search",
+    "settings": "Settings",
+    "help": "Help",
+    "confirm": "Confirm",
+    "copied": "Copied",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info",
+    "generating": "Generating..."
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "zh": "中文"
+  },
+  "appPage": {
+    "loading": "LOADING",
+    "toggleSidebarCollapse": "Collapse sidebar",
+    "toggleSidebarExpand": "Expand sidebar",
+    "title": "HEART OF UNIVERSE",
+    "rootView": "Root View",
+    "back": "Back",
+    "resetCameraTitle": "Reset camera",
+    "resetCamera": "Reset Camera"
+  },
+  "leftSidebar": {
+    "navTitle": "NAV",
+    "searchLabel": "Star Search",
+    "searchPlaceholder": "Enter keywords...",
+    "matchCount": "Matched {{count}} nodes",
+    "openNewWindow": "Open New Window",
+    "aiGradeLegend": "AI Grade",
+    "selectedNode": "Selected",
+    "helpToggleHide": "Collapse Help",
+    "helpToggleShow": "Support",
+    "helpTitle": "Heart of Universe",
+    "helpDesc": "A no-code personal cognitive system. Currently features knowledge graph + evidence review. Evidence matrix and logic chain will be added later.",
+    "helpContact": "Tech: 19383203383",
+    "helpBiz": "Business: QQ 3279496569",
+    "helpOps": "Tip: Shift+click to multi-select / Shift+click nodes to connect; use the bottom Input tab to add nodes and relations.",
+    "quickAddPlaceholder": "Node name...",
+    "quickAddButton": "+ Node",
+    "sections": {
+      "project": "Project",
+      "workspace": "Workspace",
+      "quickAdd": "Quick Add",
+      "view": "View",
+      "multiWindow": "Multi-Window",
+      "legend": "Legend",
+      "help": "Help"
+    },
+    "workspaces": {
+      "graph": "3D Graph",
+      "execution": "2D Plan",
+      "reasoning": "Reasoning"
+    }
+  },
+  "nodeTypes": {
+    "concept": "Concept",
+    "principle": "Principle",
+    "meta": "Meta",
+    "paper": "Paper",
+    "note": "Note",
+    "custom": "Custom",
+    "communication": "Communication",
+    "aiBrief": "AI Brief"
+  },
+  "projectPanel": {
+    "title": "Project",
+    "placeholder": "Project name / export filename",
+    "new": "+ New",
+    "save": "Save",
+    "exportJson": "Export JSON",
+    "exportBibtex": "Export BibTeX",
+    "backupLocal": "Backup to local file",
+    "exportFocusReport": "Export focus & learning report",
+    "defaultProjectName": "Project {{date}}",
+    "defaultExportName": "heart-of-universe-{{timestamp}}",
+    "manualBackupName": "manual-backup-{{timestamp}}",
+    "backupSaved": "Backed up to: {{path}}",
+    "confirmRestoreBackup": "Restoring a backup will overwrite the current graph. Continue?",
+    "readBackupFailed": "Failed to read backup",
+    "confirmNewProject": "Creating a new project will clear the current graph. Continue?",
+    "confirmDeleteProject": "Deletion cannot be undone. Continue?",
+    "confirmImportMerge": "Importing will merge another project's nodes and relations. Continue?",
+    "importProjectDefault": "Imported Project",
+    "fileFormatError": "File format error",
+    "noBibtexEntries": "No BibTeX entries found",
+    "importedPapers": "Imported {{count}} references as knowledge nodes",
+    "bibtexParseError": "BibTeX parse failed: {{message}}",
+    "noPaperNodes": "No paper-type nodes to export",
+    "tabs": {
+      "manage": "Manage",
+      "import": "Import",
+      "history": "History"
+    },
+    "localBackup": "Local Backups",
+    "noLocalBackup": "No local backups",
+    "importMerge": "Import & Merge",
+    "noOtherProjects": "No other projects to import",
+    "importJson": "Import JSON project",
+    "importBibtex": "Import BibTeX references",
+    "historyProjects": "History Projects",
+    "noHistory": "No history projects",
+    "actions": {
+      "restore": "Restore",
+      "merge": "Merge",
+      "load": "Load",
+      "delete": "Del"
+    }
+  },
+  "chatPanel": {
+    "title": "Assistant",
+    "trainingBadge": "Training",
+    "clearMemoryTitle": "Clear current project chat memory",
+    "settingsTitle": "Model settings",
+    "requestFailed": "Request failed",
+    "generatedNodes": "New nodes generated.",
+    "generatedReasoning": "Reasoning thread generated.",
+    "reasoningDefaultTitle": "AI Reasoning Thread",
+    "errorPrefix": "[Error] ",
+    "cancelApplied": "AI output application cancelled.",
+    "confirmClearMemory": "Are you sure you want to clear the current project's AI conversation memory? This cannot be undone.",
+    "providers": {
+      "deepseek": "DeepSeek",
+      "kimi": "Kimi",
+      "openai": "OpenAI",
+      "custom": "Custom"
+    },
+    "modelPlaceholder": "Model name",
+    "apiKeyPlaceholder": "API Key",
+    "baseUrlPlaceholder": "Base URL (optional)",
+    "settingsHint": "Settings are saved locally in your browser.",
+    "pendingGraphExplanation": "Cognitive training mode is on. Please complete reading, summary, and manual node creation before applying AI output.",
+    "pendingReasoningExplanation": "Cognitive training mode is on. Please complete the training requirements before applying the reasoning thread.",
+    "loading": "Thinking...",
+    "inputPlaceholder": "Ask or describe your topic...",
+    "completeTrainingFirst": "Complete Training First",
+    "send": "Send",
+    "presets": {
+      "intro": "System Intro",
+      "deepDive": "Deep Dive",
+      "resources": "Find Resources",
+      "gapFill": "Fill Gaps",
+      "reconnect": "Reconnect Network"
+    }
+  },
+  "graph3D": {
+    "newNodeFallbackLabel": "New Node",
+    "tooltipUnnamed": "Unnamed",
+    "connectModeHint": "Connect mode: click target node to connect from {{source}}",
+    "contextMenuAddNode": "Add Node",
+    "contextMenuCancel": "Cancel"
+  },
+  "executionGraph2D": {
+    "exportPlanTitle": "# Execution Plan",
+    "exportOrder": "Export Plan",
+    "copyMarkdown": "Copy Markdown",
+    "copiedMarkdown": "Markdown copied",
+    "autoConnect": "Auto Connect",
+    "noDependencies": "No clear dependencies detected",
+    "addedDependencies": "Auto-added {{count}} dependency links",
+    "priorityLegend": "Priority (Importance + Urgency)",
+    "emptyHint": "Right-click empty space to create a task/node, or use AI planning above.",
+    "noTasks": "No tasks yet.",
+    "taskItem": "{{index}}. [{{status}}] {{title}} ({{startDate}} - {{endDate}})",
+    "descriptionPrefix": "   Description: {{desc}}",
+    "nodePrefix": "   Linked node: {{id}}",
+    "deliverablesPrefix": "   Deliverables: {{list}}",
+    "dependenciesPrefix": "   Dependencies: {{list}}",
+    "status": {
+      "todo": "Todo",
+      "doing": "Doing",
+      "done": "Done",
+      "blocked": "Blocked"
+    }
+  },
+  "visualSupervision": {
+    "title": "Visual Supervision",
+    "startCamera": "Start Camera",
+    "stopCamera": "Stop Camera",
+    "attentionScore": "Attention Score",
+    "focusTime": "Focus Time",
+    "fatigue": "Fatigue",
+    "gaze": "Gaze",
+    "sessionReport": "Session Report",
+    "enableFirst": "Enable camera to start supervision",
+    "cameraError": "Camera error. Please check permissions."
+  },
+  "cognitiveTraining": {
+    "title": "Cognitive Training",
+    "enabled": "Training Mode On",
+    "disabled": "Training Mode Off",
+    "readTime": "Reading Time",
+    "scrollCoverage": "Scroll Coverage",
+    "summaryRequired": "Self-written Summary",
+    "manualNodeRequired": "Manual Node",
+    "applyLocked": "Apply Locked",
+    "applyUnlocked": "Apply Unlocked",
+    "stats": "Statistics",
+    "sessions": "Sessions",
+    "avgScore": "Avg Score",
+    "totalTime": "Total Time"
+  },
+  "nodeDetail": {
+    "info": "Info",
+    "content": "Content",
+    "relations": "Relations",
+    "evidence": "Evidence",
+    "actions": "Actions",
+    "label": "Label",
+    "type": "Type",
+    "description": "Description",
+    "tags": "Tags",
+    "addTag": "Add Tag",
+    "addContent": "Add Content",
+    "deleteNode": "Delete Node",
+    "noDescription": "No description",
+    "aiGrade": "AI Grade"
+  },
+  "inputTab": {
+    "title": "Input",
+    "manual": "Manual",
+    "ai": "AI Generate",
+    "nodeLabel": "Node Label",
+    "nodeType": "Node Type",
+    "generate": "Generate",
+    "prompt": "Prompt"
+  },
+  "agentCluster": {
+    "title": "Agent Cluster",
+    "run": "Run",
+    "requirementAnalyst": "Requirement Analyst",
+    "architect": "Architect",
+    "planner": "Planner",
+    "evaluator": "Evaluator",
+    "researcher": "Researcher"
+  },
+  "changeLog": {
+    "title": "Change Log",
+    "empty": "No changes yet",
+    "addedNodes": "Added {{count}} nodes",
+    "updatedNodes": "Updated {{count}} nodes",
+    "removedNodes": "Removed {{count}} nodes",
+    "addedLinks": "Added {{count}} relations"
+  },
+  "evidenceReview": {
+    "title": "Evidence Review",
+    "runReview": "Run Review",
+    "sourceCredibility": "Source Credibility",
+    "methodRigor": "Method Rigor",
+    "consistency": "Consistency",
+    "completeness": "Completeness",
+    "networkEmbedding": "Network Embedding"
+  },
+  "autoMode": {
+    "title": "Auto Mode",
+    "start": "Start",
+    "stop": "Stop",
+    "running": "Running",
+    "idle": "Idle"
+  },
+  "overview": {
+    "title": "Overview",
+    "nodeCount": "Nodes",
+    "linkCount": "Relations",
+    "clusterCount": "Clusters",
+    "recentActivity": "Recent Activity"
+  },
+  "aiGrades": {
+    "Ⅰ": {
+      "label": "Direct Generation",
+      "description": "Generated by AI directly, not yet verified."
+    },
+    "Ⅱ": {
+      "label": "Review Passed",
+      "description": "Passed evidence review or quick manual check."
+    },
+    "Ⅲ": {
+      "label": "Strictly Reviewed",
+      "description": "Reviewed and modified through multi-round checks."
+    }
+  }
+}

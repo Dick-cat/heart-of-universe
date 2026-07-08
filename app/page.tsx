@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { useTranslation } from 'react-i18next';
 import { useGraphStore } from '@/hooks/useGraphStore';
 import { useViewportData } from '@/hooks/useViewportData';
 import { useClusteredGraph } from '@/hooks/useClusteredGraph';
@@ -9,6 +10,7 @@ import { useAutoSave } from '@/hooks/useAutoSave';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useStartupRecovery } from '@/hooks/useStartupRecovery';
 import { ChatPanel } from '@/components/ChatPanel';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { LeftSidebar } from '@/components/LeftSidebar';
 import { MultiSelectToolbar } from '@/components/MultiSelectToolbar';
 import { ChangeLogPanel } from '@/components/ChangeLogPanel';
@@ -23,19 +25,26 @@ import { AutoModePanel } from '@/components/AutoModePanel';
 import { ContentClusterPanel } from '@/components/ContentClusterPanel';
 import { ExecutionTab } from '@/components/ExecutionTab';
 
-const Graph3D = dynamic(() => import('@/components/Graph3D'), {
-  ssr: false,
-  loading: () => (
+function GraphLoading() {
+  const { t } = useTranslation();
+  return (
     <div className="flex h-full items-center justify-center text-cosmic-400">
       <div className="text-center">
         <HeartClawLogo size={56} className="mx-auto mb-3 animate-pulse" />
-        <div className="text-sm tracking-widest text-crimson-400">宇宙之心加载中…</div>
+        <div className="text-sm tracking-widest text-crimson-400">{t('appPage.loading')}</div>
       </div>
     </div>
-  ),
+  );
+}
+
+const Graph3D = dynamic(() => import('@/components/Graph3D'), {
+  ssr: false,
+  loading: GraphLoading,
 });
 
 export default function Home() {
+  const { t } = useTranslation();
+
   useAutoSave();
   useKeyboardShortcuts();
   useStartupRecovery();
@@ -95,16 +104,21 @@ export default function Home() {
           <button
             onClick={() => setLeftOpen(!leftOpen)}
             className="flex h-10 w-10 items-center justify-center border border-cosmic-700 bg-cosmic-900/90 text-cosmic-200 shadow-crimson-glow backdrop-blur-md transition-all hover:border-crimson-600 hover:text-white"
-            aria-label={leftOpen ? '收起左栏' : '展开左栏'}
+            aria-label={leftOpen ? t('appPage.toggleSidebarCollapse') : t('appPage.toggleSidebarExpand')}
           >
             {leftOpen ? '‹' : '›'}
           </button>
           <div className="hidden h-10 items-center gap-2 border-y border-crimson-900/50 bg-cosmic-900/90 pl-3 pr-5 backdrop-blur-md md:flex">
             <HeartClawLogo size={24} />
-            <span className="cosmic-title text-sm font-bold tracking-[0.2em]">宇宙之心</span>
+            <span className="cosmic-title text-sm font-bold tracking-[0.2em]">{t('appPage.title')}</span>
             <span className="text-[10px] font-mono text-crimson-400">v1.8.4</span>
           </div>
           <div className="hidden h-10 w-3 skew-x-[-12deg] border-y border-r border-crimson-900/50 bg-gradient-to-r from-crimson-900/30 to-transparent md:block" />
+        </div>
+
+        {/* Right cluster: language switcher */}
+        <div className="pointer-events-auto flex items-center">
+          <LanguageSwitcher />
         </div>
 
       </div>
@@ -214,6 +228,7 @@ function BreadcrumbTrail({
   onRoot: () => void;
   onResetCamera: () => void;
 }) {
+  const { t } = useTranslation();
   if (!currentViewNodeId) return null;
 
   const nodeMap = new Map(nodes.map((n) => [n.id, n]));
@@ -221,7 +236,7 @@ function BreadcrumbTrail({
   return (
     <div className="absolute left-4 top-16 z-30 flex items-center gap-1 rounded-sm border border-cosmic-700 bg-cosmic-900/80 px-3 py-1.5 text-xs backdrop-blur-md">
       <button onClick={onRoot} className="text-cosmic-400 transition-colors hover:text-cosmic-200">
-        根视图
+        {t('appPage.rootView')}
       </button>
       {viewStack.map((id) => (
         <span key={id} className="flex items-center gap-1">
@@ -234,14 +249,14 @@ function BreadcrumbTrail({
       <span className="text-cosmic-600">/</span>
       <span className="font-medium text-cosmic-100">{nodeMap.get(currentViewNodeId)?.label || '…'}</span>
       <button onClick={onExit} className="ml-2 text-cosmic-500 transition-colors hover:text-crimson-400">
-        返回
+        {t('appPage.back')}
       </button>
       <button
         onClick={onResetCamera}
         className="ml-2 text-cosmic-500 transition-colors hover:text-crimson-400"
-        title="摄影机回位"
+        title={t('appPage.resetCameraTitle')}
       >
-        回位
+        {t('appPage.resetCamera')}
       </button>
     </div>
   );

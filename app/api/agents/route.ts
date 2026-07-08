@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ChatMessage } from '@/lib/types';
+import { validateLLMEndpoint } from '@/lib/url-validator';
 
 const DEFAULTS: Record<string, { baseURL: string; model: string }> = {
   deepseek: {
@@ -25,6 +26,14 @@ export async function POST(req: NextRequest) {
     if (!apiKey || !baseURL || !model) {
       return NextResponse.json(
         { error: 'Missing LLM configuration. Set LLM_PROVIDER, LLM_API_KEY, LLM_BASE_URL, LLM_MODEL.' },
+        { status: 400 }
+      );
+    }
+
+    const urlValidation = validateLLMEndpoint(baseURL);
+    if (!urlValidation.valid) {
+      return NextResponse.json(
+        { error: `Invalid LLM endpoint URL: ${urlValidation.reason}` },
         { status: 400 }
       );
     }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useGraphStore } from '@/hooks/useGraphStore';
 import { ChatMessage, AIGraphPayload, AIReasoningPayload } from '@/lib/types';
 import { SYSTEM_PROMPT, buildProjectContext } from '@/lib/llm';
@@ -41,28 +42,29 @@ function stripMarkdownFences(content: string): string {
 
 const PRESETS = [
   {
-    label: '系统入门',
+    labelKey: 'chatPanel.presets.intro',
     prompt: '我想系统学习这个话题，请生成一张从第一性原理出发的知识图谱，包含核心概念、关键原理和推荐学习资源。',
   },
   {
-    label: '深挖原理',
+    labelKey: 'chatPanel.presets.deepDive',
     prompt: '请围绕当前选中的节点，深入解释其底层原理、与其他概念的关系，并推荐论文或视频。',
   },
   {
-    label: '找学习资源',
+    labelKey: 'chatPanel.presets.resources',
     prompt: '请为当前话题推荐高质量的公开学习资源（文章、论文、视频链接），并生成对应的资源节点。',
   },
   {
-    label: '查漏补缺',
+    labelKey: 'chatPanel.presets.gapFill',
     prompt: '根据现有图谱，指出我可能遗漏的关键前置知识或相关概念，并补充为节点。',
   },
   {
-    label: '重新连接网络',
+    labelKey: 'chatPanel.presets.reconnect',
     prompt: '我已经合并了多个项目，请检查当前所有节点之间的关系，删除重复或低价值的节点，补充缺失的关系，并重新组织成一个结构清晰、关系连贯的知识网络。请优先建立节点之间的逻辑关联，必要时创建新的连接节点。',
   },
 ];
 
 export function ChatPanel() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [input, setInput] = useState('');
@@ -161,7 +163,7 @@ export function ChatPanel() {
         }),
       });
       const json = await res.json();
-      if (!res.ok) throw new Error(json.error || '请求失败');
+      if (!res.ok) throw new Error(json.error || t('chatPanel.requestFailed'));
 
       const content = json.content;
       recordTrainingInteraction();
@@ -178,10 +180,10 @@ export function ChatPanel() {
           setPendingPayload({ kind: 'graph', data: payload });
         } else {
           applyAIPayload(payload, prompt, 'Ⅰ');
-          setMessages((prev) => [...prev, { role: 'assistant', content: payload.explanation || '已生成新节点。' }]);
+          setMessages((prev) => [...prev, { role: 'assistant', content: payload.explanation || t('chatPanel.generatedNodes') }]);
         }
       } else {
-        let payload: AIReasoningPayload = { title: 'AI 推理线程', question: prompt, steps: [], explanation: content };
+        let payload: AIReasoningPayload = { title: t('chatPanel.reasoningDefaultTitle'), question: prompt, steps: [], explanation: content };
         try {
           const parsed = JSON.parse(stripMarkdownFences(content));
           payload = { ...payload, ...parsed };
@@ -193,11 +195,11 @@ export function ChatPanel() {
           setPendingPayload({ kind: 'reasoning', data: payload });
         } else {
           applyAIReasoningPayload(payload, prompt);
-          setMessages((prev) => [...prev, { role: 'assistant', content: payload.explanation || '已生成推理线程。' }]);
+          setMessages((prev) => [...prev, { role: 'assistant', content: payload.explanation || t('chatPanel.generatedReasoning') }]);
         }
       }
     } catch (err: any) {
-      setMessages((prev) => [...prev, { role: 'assistant', content: `[错误] ${err.message}` }]);
+      setMessages((prev) => [...prev, { role: 'assistant', content: `${t('chatPanel.errorPrefix')}${err.message}` }]);
     } finally {
       setLoading(false);
     }
@@ -209,13 +211,13 @@ export function ChatPanel() {
       applyAIPayload(pendingPayload.data, lastPrompt, grade);
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: pendingPayload.data.explanation || '已生成新节点。' },
+        { role: 'assistant', content: pendingPayload.data.explanation || t('chatPanel.generatedNodes') },
       ]);
     } else {
       applyAIReasoningPayload(pendingPayload.data, lastPrompt);
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: pendingPayload.data.explanation || '已生成推理线程。' },
+        { role: 'assistant', content: pendingPayload.data.explanation || t('chatPanel.generatedReasoning') },
       ]);
     }
     setPendingPayload(null);
@@ -223,7 +225,7 @@ export function ChatPanel() {
 
   const cancelPending = () => {
     setPendingPayload(null);
-    setMessages((prev) => [...prev, { role: 'assistant', content: '已取消应用 AI 输出。' }]);
+    setMessages((prev) => [...prev, { role: 'assistant', content: t('chatPanel.cancelApplied') }]);
   };
 
   const applyPreset = (prompt: string) => {
@@ -235,7 +237,7 @@ export function ChatPanel() {
   };
 
   const clearProjectMemory = () => {
-    if (!confirm('确定清除当前项目的 AI 对话记忆？此操作不可恢复。')) return;
+    if (!confirm(t('chatPanel.confirmClearMemory'))) return;
     localStorage.removeItem(CHAT_STORAGE_KEY(currentProjectId));
     setMessages([{ role: 'system', content: SYSTEM_PROMPT }]);
   };
@@ -247,10 +249,10 @@ export function ChatPanel() {
           <div className="flex items-center justify-between border-b border-panel-border/60 px-5 py-4">
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono text-crimson-400">AI</span>
-              <span className="font-bold tracking-wider text-cosmic-100">助手</span>
+              <span className="font-bold tracking-wider text-cosmic-100">{t('chatPanel.title')}</span>
               {cognitiveTraining.enabled && (
                 <span className="rounded-full bg-crimson-900/40 px-2 py-0.5 text-[10px] text-crimson-400">
-                  训练中
+                  {t('chatPanel.trainingBadge')}
                 </span>
               )}
             </div>
@@ -258,14 +260,14 @@ export function ChatPanel() {
               <button
                 onClick={clearProjectMemory}
                 className="flex h-7 w-7 items-center justify-center rounded-full text-cosmic-400 transition-colors hover:bg-crimson-900/40 hover:text-crimson-300"
-                title="清除当前项目对话记忆"
+                title={t('chatPanel.clearMemoryTitle')}
               >
                 🗑
               </button>
               <button
                 onClick={() => setShowSettings((v) => !v)}
                 className="flex h-7 w-7 items-center justify-center rounded-full text-cosmic-400 transition-colors hover:bg-cosmic-800 hover:text-cosmic-100"
-                title="模型设置"
+                title={t('chatPanel.settingsTitle')}
               >
                 ⚙
               </button>
@@ -280,23 +282,23 @@ export function ChatPanel() {
 
           {showSettings && (
             <div className="border-b border-panel-border/60 bg-cosmic-950/50 p-4 space-y-3">
-              <div className="text-xs font-medium text-cosmic-300">模型设置</div>
+              <div className="text-xs font-medium text-cosmic-300">{t('chatPanel.settingsTitle')}</div>
               <div className="grid grid-cols-2 gap-2">
                 <select
                   value={llmProvider}
                   onChange={(e) => setLLMSettings({ provider: e.target.value })}
                   className="cosmic-input text-xs"
                 >
-                  <option value="deepseek">DeepSeek</option>
-                  <option value="kimi">Kimi</option>
-                  <option value="openai">OpenAI</option>
-                  <option value="custom">自定义</option>
+                  <option value="deepseek">{t('chatPanel.providers.deepseek')}</option>
+                  <option value="kimi">{t('chatPanel.providers.kimi')}</option>
+                  <option value="openai">{t('chatPanel.providers.openai')}</option>
+                  <option value="custom">{t('chatPanel.providers.custom')}</option>
                 </select>
                 <input
                   type="text"
                   value={llmModel}
                   onChange={(e) => setLLMSettings({ model: e.target.value })}
-                  placeholder="模型名，如 deepseek-chat"
+                  placeholder={t('chatPanel.modelPlaceholder')}
                   className="cosmic-input text-xs"
                 />
               </div>
@@ -304,20 +306,18 @@ export function ChatPanel() {
                 type="password"
                 value={llmApiKey}
                 onChange={(e) => setLLMSettings({ apiKey: e.target.value })}
-                placeholder="API Key"
+                placeholder={t('chatPanel.apiKeyPlaceholder')}
                 className="cosmic-input w-full text-xs"
               />
               <input
                 type="text"
                 value={llmBaseUrl}
                 onChange={(e) => setLLMSettings({ baseURL: e.target.value })}
-                placeholder="Base URL（可选，留空使用默认）"
+                placeholder={t('chatPanel.baseUrlPlaceholder')}
                 className="cosmic-input w-full text-xs"
               />
-              <p className="text-[10px] text-cosmic-500">
-                设置会自动保存。未填写 API Key 时使用环境变量配置。
-                <br />
-                对话记录已按项目隔离，切换项目不会读取其他项目的上下文。
+              <p className="text-[10px] text-cosmic-500 whitespace-pre-line">
+                {t('chatPanel.settingsHint')}
               </p>
             </div>
           )}
@@ -325,11 +325,11 @@ export function ChatPanel() {
           <div className="flex gap-2 overflow-x-auto px-4 py-3 scrollbar-thin">
             {PRESETS.map((p) => (
               <button
-                key={p.label}
+                key={p.labelKey}
                 onClick={() => applyPreset(p.prompt)}
                 className="cosmic-pill shrink-0"
               >
-                {p.label}
+                {t(p.labelKey as any)}
               </button>
             ))}
           </div>
@@ -354,8 +354,8 @@ export function ChatPanel() {
                 aiExplanation={
                   pendingPayload.data.explanation ||
                   (pendingPayload.kind === 'graph'
-                    ? 'AI 已生成节点，请阅读后应用。'
-                    : 'AI 已生成推理线程，请阅读后应用。')
+                    ? t('chatPanel.pendingGraphExplanation')
+                    : t('chatPanel.pendingReasoningExplanation'))
                 }
                 onApply={applyPending}
                 onCancel={cancelPending}
@@ -365,7 +365,7 @@ export function ChatPanel() {
             {loading && (
               <div className="flex items-center gap-2 text-sm text-cosmic-400">
                 <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-cosmic-600 border-t-crimson-500" />
-                AI 正在思考…
+                {t('chatPanel.loading')}
               </div>
             )}
           </div>
@@ -380,7 +380,7 @@ export function ChatPanel() {
                   send();
                 }
               }}
-              placeholder="输入需求，或点击上方预设…"
+              placeholder={t('chatPanel.inputPlaceholder')}
               className="cosmic-input h-20 w-full resize-none"
             />
             <button
@@ -388,7 +388,7 @@ export function ChatPanel() {
               disabled={loading || !input.trim() || !!pendingPayload}
               className="cosmic-btn-primary mt-3 w-full"
             >
-              {loading ? '生成中…' : pendingPayload ? '请先完成训练闭环' : '发送'}
+              {loading ? t('common.generating') : pendingPayload ? t('chatPanel.completeTrainingFirst') : t('chatPanel.send')}
             </button>
           </div>
         </div>

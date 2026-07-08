@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useCallback, useEffect, useMemo, useState, memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import ForceGraph3D from 'react-force-graph-3d';
 import * as THREE from 'three';
 import SpriteText from 'three-spritetext';
@@ -39,6 +40,7 @@ const Graph3D = memo(function Graph3D({
   resetCameraSignal,
   simplified,
 }: Graph3DProps) {
+  const { t } = useTranslation();
   const fgRef = useRef<any>(null);
   const selectedIdRef = useRef<string | null>(null);
   const multiIdsRef = useRef<Set<string>>(new Set());
@@ -257,7 +259,7 @@ const Graph3D = memo(function Graph3D({
     const store = useGraphStore.getState();
     const newNode: GraphNode = {
       id: `node-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-      label: '新节点',
+      label: t('graph3D.newNodeFallbackLabel'),
       type: 'note',
       description: '',
       x: 0,
@@ -378,7 +380,7 @@ const Graph3D = memo(function Graph3D({
       .map(
         (ci) => {
           const content = ci.content || '';
-          return `<div style="margin:2px 0;padding:2px 0;border-bottom:1px solid #334155;"><b>${ci.title || '未命名'}</b> <span style="color:#94a3b8;">[${ci.type || ''}]</span><br/>${content.slice(0, 80)}${content.length > 80 ? '…' : ''}</div>`;
+          return `<div style="margin:2px 0;padding:2px 0;border-bottom:1px solid #334155;"><b>${ci.title || t('graph3D.tooltipUnnamed')}</b> <span style="color:#94a3b8;">[${ci.type || ''}]</span><br/>${content.slice(0, 80)}${content.length > 80 ? '…' : ''}</div>`;
         }
       )
       .join('');
@@ -538,7 +540,7 @@ const Graph3D = memo(function Graph3D({
 
       {connectSourceId && (
         <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-sm border border-pink-500/50 bg-cosmic-900/90 px-3 py-1.5 text-xs text-pink-300 backdrop-blur-md">
-          连接模式：从「{nodes.find((n) => n.id === connectSourceId)?.label || '…'}」Shift+点击目标节点建立关系，或再次点击取消
+          {t('graph3D.connectModeHint', { source: nodes.find((n) => n.id === connectSourceId)?.label || '…' })}
         </div>
       )}
 
@@ -563,7 +565,7 @@ const Graph3D = memo(function Graph3D({
               }}
               className="block w-full px-3 py-1.5 text-left text-xs text-cosmic-200 transition-colors hover:bg-cosmic-800"
             >
-              添加节点
+              {t('graph3D.contextMenuAddNode')}
             </button>
             <button
               onMouseDown={(e) => {
@@ -573,7 +575,7 @@ const Graph3D = memo(function Graph3D({
               }}
               className="block w-full px-3 py-1.5 text-left text-xs text-cosmic-400 transition-colors hover:bg-cosmic-800"
             >
-              取消
+              {t('graph3D.contextMenuCancel')}
             </button>
           </div>
         </>
