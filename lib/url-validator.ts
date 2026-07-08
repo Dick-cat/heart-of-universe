@@ -20,31 +20,31 @@ export interface UrlValidationResult {
 
 export function validateLLMEndpoint(urlString: string): UrlValidationResult {
   if (!urlString || typeof urlString !== 'string') {
-    return { valid: false, reason: 'URL 不能为空' };
+    return { valid: false, reason: 'URL cannot be empty' };
   }
 
   let url: URL;
   try {
     url = new URL(urlString);
   } catch {
-    return { valid: false, reason: 'URL 格式无效' };
+    return { valid: false, reason: 'Invalid URL format' };
   }
 
   if (!ALLOWED_PROTOCOLS.includes(url.protocol)) {
     return {
       valid: false,
-      reason: `不支持的协议 ${url.protocol.replace(':', '')}。仅允许 http 和 https 协议。`,
+      reason: `Unsupported protocol ${url.protocol.replace(':', '')}. Only http and https are allowed.`,
     };
   }
 
   const hostname = url.hostname.toLowerCase().trim();
 
   if (METADATA_HOSTNAMES.some((blocked) => hostname === blocked || hostname.endsWith(`.${blocked}`))) {
-    return { valid: false, reason: '禁止访问云服务元数据地址' };
+    return { valid: false, reason: 'Cloud metadata endpoints are not allowed' };
   }
 
   if (isIpAddress(hostname) && isMetadataIp(hostname)) {
-    return { valid: false, reason: '禁止访问云服务元数据地址' };
+    return { valid: false, reason: 'Cloud metadata IP ranges are not allowed' };
   }
 
   return { valid: true };
