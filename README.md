@@ -113,7 +113,7 @@ The application supports **English** and **中文 (Chinese)**. Switch anytime fr
 ### 1. Clone | 克隆仓库
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Dick-cat/heart-of-universe.git
 cd heart-of-universe
 ```
 
