@@ -283,7 +283,6 @@ See `docs/v2_0_PROPOSAL.md` and `docs/v4_0_ARCHITECTURE.md` for detailed proposa
 
 ## Notes | 注意事项
 
-- `.env.local` contains API keys. **Do not commit it to Git** (already in `.gitignore`). `.env.local` 包含 API Key，**不要提交到 Git**（已加入 `.gitignore`）。
 - Local file attachments use browser object URLs; re-upload after refresh. URL attachments persist. 本地文件附件使用浏览器 object URL，刷新后需重新上传；URL 附件可持久保存。
 - Visual supervision is off by default. It requires user authorization, and all processing happens locally. 视觉监督模块默认关闭，开启前需用户授权，所有处理均在本地完成。
 - Run `npm run build` before production packaging. 生产打包前确保已运行 `npm run build`。
